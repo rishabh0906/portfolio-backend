@@ -1,11 +1,13 @@
 const express = require("express");
-let dotenv=require('dotenv').config();
+require('dotenv').config();
 const nodemailer = require("nodemailer");
-
+const path=require('path');
 let app = express();
 
 
 app.use(express.json());
+ app.use(express.static(path.join(__dirname,'build')));
+
 
 
 let transporter = nodemailer.createTransport({
@@ -47,8 +49,12 @@ app.post("/access", (req, res, next) => {
     }
   });
 });
-const PORT = process.env.PORT || 4000;
-console.log(PORT);
+
+app.get('/*',(req,res)=>{
+
+  res.sendFile(path.join(__dirname,'build','index.html'))
+})
+const PORT = process.env.PORT ||8987;
 
 app.listen(PORT, () => {
   console.info(`server has started on ${PORT}`);
