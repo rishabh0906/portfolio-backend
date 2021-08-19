@@ -12,8 +12,7 @@ app.use(express.json());
 
 let transporter = nodemailer.createTransport({
  service:process.env.USER_SERVICE,
- port:587,
-
+host:"smtp.gmail.com",
   auth: {
     user: process.env.USER_MAIL,
     pass: process.env.USER_PWD,
@@ -54,7 +53,7 @@ app.get('/*',(req,res)=>{
 
   res.sendFile(path.join(__dirname,'build','index.html'))
 })
-const PORT = process.env.PORT ||8987;
+const PORT = process.env.PORT ||5000;
 
 app.listen(PORT, () => {
   console.info(`server has started on ${PORT}`);
