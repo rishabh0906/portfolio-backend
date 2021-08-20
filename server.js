@@ -13,11 +13,13 @@ let Oauth2Client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
   process.env.REDIRECT_URL
-);
-Oauth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+  );
+  Oauth2Client.setCredentials({ refresh_token: process.envREFRESH_TOKEN });
 
+  
 async function sendmail(obj) {
-  const ACCESS_TOKEN = await Oauth2Client.getAccessToken();
+  const ACCESS_TOKEN= Oauth2Client.getAccessToken();
+  console.log(ACCESS_TOKEN);
   const transport = nodemailer.createTransport({
     service: process.env.USER_SERVICE,
     auth: {
@@ -28,6 +30,9 @@ async function sendmail(obj) {
       refreshToken: process.env.REFRESH_TOKEN,
       accessToken: ACCESS_TOKEN,
     },
+    tls:{
+      rejectUnauthorized:false
+    }
   });
   const mail = {
     from: process.env.SENDER,
